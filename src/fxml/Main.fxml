@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.MainController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <BorderPane layoutX="0.0" layoutY="32.0" prefHeight="168.0" prefWidth="300.0">
+      <bottom>
+        <Button fx:id="submitButton" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#submit" text="Start" />
+      </bottom>
+      <center>
+        <TextField fx:id="textInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="200.0" />
+      </center>
+      <top>
+        <Label fx:id="textDisplay" alignment="CENTER" prefHeight="120.0" prefWidth="300.0" text="Press Start" textAlignment="CENTER" />
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>
