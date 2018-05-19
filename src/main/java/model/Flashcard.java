@@ -1,4 +1,4 @@
-package application;
+package main.java.model;
 
 public class Flashcard {
 	

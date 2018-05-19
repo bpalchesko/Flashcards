@@ -1,10 +1,8 @@
-package application;
+package main.java;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import main.java.model.FlashcardSet;
+import main.java.parser.CsvParser;
+import main.java.parser.Parser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,7 +19,7 @@ public class MainController {
 	private final boolean FRONT = true;
 	private FlashcardSet flashcards;
 	private boolean showingCard;
-	private File importCsv;
+	private Parser fileParser;
 	@FXML
 	private Button submitButton;
 	@FXML
@@ -29,8 +27,8 @@ public class MainController {
 	@FXML
 	private TextField textInput;
 
-	public MainController()
-	{
+	public MainController() {
+		fileParser = new CsvParser();
 	}
 	
 	@FXML
@@ -51,8 +49,14 @@ public class MainController {
 	    FileChooser chooser = new FileChooser();
 	    chooser.setTitle("Open File");
 	    chooser.getExtensionFilters().add(new ExtensionFilter("CSV files", "*.csv"));
-	    importCsv = chooser.showOpenDialog(new Stage());
-	    readCsv();
+	    try {
+			flashcards = fileParser.read(chooser.showOpenDialog(new Stage()));
+		    showingCard = false;
+			flashcards.startQuiz(FRONT, true);
+			textDisplay.setText("Press Enter to begin");
+		} catch (Exception e) {
+			textDisplay.setText("Error opening file. Please try another file");
+		}
 	}
 
 	private void submit() {
@@ -86,39 +90,5 @@ public class MainController {
 		String scores = "Correct: " + flashcards.getCardsCorrect() +
 				"\nTotal: " + flashcards.getCardsSQuizzed();
 		textDisplay.setText(scores);
-	}
-	
-	private void readCsv() {
-        Scanner scanner;
-        flashcards = new FlashcardSet();
-        showingCard = false;
-		try {
-			scanner = new Scanner(importCsv);
-	        while(scanner.hasNextLine()){
-	        	processLine(scanner.nextLine());
-	        }
-			scanner.close();
-			flashcards.startQuiz(FRONT, true);
-			textDisplay.setText("Press Enter to begin");
-		} catch (FileNotFoundException e) {
-			textDisplay.setText("Error opening file. Please try another file");
-		} catch (IllegalArgumentException e) {
-			textDisplay.setText("Invalid file format");
-		}
-	}
-	
-	private void processLine(String line) {
-		ArrayList<String> cardWords = new ArrayList<String>();
-		String[] words = line.split(",");
-		for(String word : words) {
-			if(!"".equals(word)) {
-				cardWords.add(word);
-			}
-		}
-		if(cardWords.size() == 2) {
-			flashcards.add(cardWords.get(0), cardWords.get(1)); 
-		} else if(cardWords.size() != 0) {
-			throw new IllegalArgumentException();
-		}
 	}
 }

@@ -1,4 +1,4 @@
-package application;
+package main.java;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +14,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 	        FXMLLoader loader = new FXMLLoader();
-	        loader.setLocation(Main.class.getResource("/fxml/Main.fxml"));
+	        loader.setLocation(Main.class.getResource("/main/resources/Main.fxml"));
 	        rootLayout = (AnchorPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/main/resources/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
