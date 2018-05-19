@@ -5,18 +5,39 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.MainController">
+<AnchorPane fx:id="rootLayout" prefHeight="200.0" prefWidth="275.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.MainController">
   <!-- TODO Add Nodes -->
   <children>
-    <BorderPane layoutX="0.0" layoutY="32.0" prefHeight="168.0" prefWidth="300.0">
-      <bottom>
-        <Button fx:id="submitButton" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#submit" text="Start" />
-      </bottom>
+    <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="275.0">
       <center>
-        <TextField fx:id="textInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="200.0" />
+        <BorderPane prefHeight="168.0" prefWidth="300.0">
+          <bottom>
+            <Button fx:id="submitButton" disable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#submitButtonClicked" text="Start"/>
+          </bottom>
+          <center>
+            <TextField fx:id="textInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#enterKeyPressed" prefHeight="-1.0" prefWidth="200.0" />
+          </center>
+          <top>
+            <Label fx:id="textDisplay" alignment="CENTER" prefHeight="120.0" prefWidth="300.0" text="Load a file" textAlignment="CENTER" />
+          </top>
+        </BorderPane>
       </center>
       <top>
-        <Label fx:id="textDisplay" alignment="CENTER" prefHeight="120.0" prefWidth="300.0" text="Press Start" textAlignment="CENTER" />
+        <MenuBar>
+          <menus>
+            <Menu mnemonicParsing="false" text="File">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#openCsv" text="Open" />
+                <MenuItem mnemonicParsing="false" text="Exit" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
       </top>
     </BorderPane>
   </children>

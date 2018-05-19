@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 public class FlashcardSet {
 	
+	private boolean showSide;
 	private ArrayList<Flashcard> set;
-	private Side showSide;
 	private Iterator<Flashcard> iter;
 	private Flashcard current;
 	private int cardsQuizzed;
@@ -14,30 +14,27 @@ public class FlashcardSet {
 	
 	public FlashcardSet() {
 		set = new ArrayList<Flashcard>();
-		showSide = Side.FRONT;
+		showSide = true;
 	}
 	
 	public void add(String front, String back) {
 		set.add(new Flashcard(front,back));	
 	}
 	
-	public void startQuiz(Side side, boolean shuffle) {
-		if(shuffle) shuffle();
-		showSide = side;
+	public void startQuiz(boolean showSide, boolean shuffle) {
+		if(shuffle) Collections.shuffle(set);
+		this.showSide = showSide;
 		iter = set.iterator();
-	}
-	
-	public void shuffle() {
-		Collections.shuffle(set);
 	}
 	
 	public String show() {
 		current = iter.next();
-		return current.getValue(showSide);
+		return current.getSide(showSide).getValue();
 	}
 	
 	public String showAnswer() {
-		return current.getValue(showSide.not());
+		boolean answerSide = !showSide;
+		return current.getSide(answerSide).getValue();
 	}
 
 	public boolean cardsRemain() {
@@ -46,7 +43,8 @@ public class FlashcardSet {
 	
 	public boolean grade(String input) {
 		cardsQuizzed++;
-		if(current.gradeCard(showSide, input)) {
+		boolean gradeSide = !showSide;
+		if (current.gradeCard(input, gradeSide)) {
 			cardsCorrect++;
 			return true;
 		} else return false;
