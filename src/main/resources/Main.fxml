@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane fx:id="rootLayout" prefHeight="200.0" prefWidth="275.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="main.java.MainController">
+<AnchorPane fx:id="rootLayout" prefHeight="200.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MainView">
   <!-- TODO Add Nodes -->
   <children>
     <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="275.0">
       <center>
-        <BorderPane prefHeight="168.0" prefWidth="300.0">
-          <bottom>
-            <Button fx:id="submitButton" disable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#submitButtonClicked" text="Start"/>
-          </bottom>
+        <BorderPane prefHeight="200.0" prefWidth="300.0">
           <center>
-            <TextField fx:id="textInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#enterKeyPressed" prefHeight="-1.0" prefWidth="200.0" />
+            <TextField fx:id="textInput" maxHeight="40.0" maxWidth="1.7976931348623157E308" onKeyPressed="#enterKeyPressed" prefHeight="40.0" prefWidth="275.0" BorderPane.alignment="CENTER" />
           </center>
           <top>
-            <Label fx:id="textDisplay" alignment="CENTER" prefHeight="120.0" prefWidth="300.0" text="Load a file" textAlignment="CENTER" />
+            <Label fx:id="textDisplay" alignment="CENTER" prefHeight="120.0" prefWidth="300.0" text="Load a file" textAlignment="CENTER" BorderPane.alignment="TOP_CENTER" />
           </top>
         </BorderPane>
       </center>
@@ -27,7 +27,7 @@
           <menus>
             <Menu mnemonicParsing="false" text="File">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#openCsv" text="Open" />
+                <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Load" />
                 <MenuItem mnemonicParsing="false" text="Exit" />
               </items>
             </Menu>

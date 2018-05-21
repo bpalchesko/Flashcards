@@ -8,16 +8,16 @@ import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
 
-    private AnchorPane rootLayout;
+	private final String FXML_FILE = "/main/resources/Main.fxml";
+	private final String CSS_FILE = "/main/resources/application.css";
     
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 	        FXMLLoader loader = new FXMLLoader();
-	        loader.setLocation(Main.class.getResource("/main/resources/Main.fxml"));
-	        rootLayout = (AnchorPane) loader.load();
-			Scene scene = new Scene(rootLayout);
-			scene.getStylesheets().add(getClass().getResource("/main/resources/application.css").toExternalForm());
+	        loader.setLocation(Main.class.getResource(FXML_FILE));
+			Scene scene = new Scene((AnchorPane) loader.load());
+			scene.getStylesheets().add(getClass().getResource(CSS_FILE).toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
