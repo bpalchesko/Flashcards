@@ -9,6 +9,7 @@ public class Quiz {
 	private FlashcardSide questionSide;
 	private ArrayList<Flashcard> cards;
 	private Iterator<Flashcard> iter;
+	private QuizState state;
 	private Flashcard current;
 	private int cardsQuizzed;
 	private int cardsCorrect;
@@ -28,39 +29,85 @@ public class Quiz {
 	}
 	
 	/**
+	 * Proceed to the next step in the quiz
+	 * 
+	 * @param textInput
+	 */
+	public void proceed(String textInput) {
+		switch(state) {
+		case READY:
+			startQuiz(FlashcardSide.FRONT, true);
+			break;
+		case QUESTION:
+			gradeQuestion(textInput);
+			break;
+		case ANSWER_CORRECT:
+		case ANSWER_INCORRECT:
+			proceedToNext();
+			break;
+		case COMPLETE:
+			reset();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Get current text for display
+	 * 
+	 * @param textInput
+	 * @return
+	 */
+	public String getTextForDisplay(String textInput) {
+		return state.getDisplayText(this, textInput);
+	}
+	
+	/**
 	 * Clears any history, shuffles if specified, and sets initial quiz state
 	 * 
 	 * @param questionSide
 	 * @param shuffle
-	 * @return
 	 */
-	public QuizState startQuiz(FlashcardSide questionSide, boolean shuffle) {
-		reset();
+	public void startQuiz(FlashcardSide questionSide, boolean shuffle) {
 		if (shuffle) Collections.shuffle(cards);
 		this.questionSide = questionSide;
 		iter = cards.iterator();
-		return QuizState.QUESTION;
+		state = QuizState.QUESTION;
 	}
 	
 	/**
 	 * Register question result and proceed
 	 * 
 	 * @param user's answer input
-	 * @return next state based on result
 	 */
-	public QuizState gradeQuestion(String input) {
+	public void gradeQuestion(String input) {
 		cardsQuizzed++;
 		if (current.gradeCard(input, questionSide.flip())) {
 			cardsCorrect++;
-			return QuizState.ANSWER_CORRECT;
-		} else return QuizState.ANSWER_INCORRECT;
+			state = QuizState.ANSWER_CORRECT;
+		} else {
+			state = QuizState.ANSWER_INCORRECT;
+		}
 	}
 	
 	/**
 	 * Proceed to next question or quiz results following completion of a question
 	 */
-	public QuizState proceedToNext() {
-		return iter.hasNext() ? QuizState.QUESTION : QuizState.COMPLETE;
+	public void proceedToNext() {
+		state = iter.hasNext() ? QuizState.QUESTION : QuizState.COMPLETE;
+	}
+	
+	/**
+	 * Clears all quiz result history
+	 */
+	public void reset() {
+		cardsQuizzed = 0;
+		cardsCorrect = 0;
+		for (Flashcard card : cards) {
+			card.reset();
+		}
+		state = QuizState.READY;
 	}
 	
 	/**
@@ -82,22 +129,19 @@ public class Quiz {
 		return current.getSide(questionSide.flip()).getValue();
 	}
 	
+	public QuizState getState() {
+		return state;
+	}
+	
+	public void setState(QuizState state) {
+		this.state = state;
+	}
+	
 	public int getCardsSQuizzed() {
 		return cardsQuizzed;
 	}
 
 	public int getCardsCorrect() {
 		return cardsCorrect;
-	}
-	
-	/**
-	 * Clears all quiz result history
-	 */
-	public void reset() {
-		cardsQuizzed = 0;
-		cardsCorrect = 0;
-		for (Flashcard card : cards) {
-			card.reset();
-		}
 	}
 }

@@ -7,7 +7,7 @@ import main.java.model.Quiz;
 
 public interface FileHandler {
 	
-	public Quiz read(File file) throws Exception;
+	public Quiz read(File file);
 	public ExtensionFilter getExtensionFilter();
 
 }
